@@ -1,35 +1,26 @@
-# Courts Without Borders: Global Sports League Scheduling Optimization
+# Courts Without Borders: Global Sports League Scheduling
 
-**Achievement: Global Finalist, International Mathematical Modeling Challenge (IMMC)**
-**Defense Location: Invited for the Global Finalist Presentation in Hong Kong**
+**IMMC 2025 Global Finalist.** Team paper for the International Mathematical Modeling Challenge, defended in person at the global finalist presentation in Hong Kong. My role: algorithm lead.
 
-This repository contains our team's research paper and algorithmic framework submitted to the **IMMC**. Advancing past rigorous preliminary rounds, our team was selected to travel to **Hong Kong** to deliver a live, in-person presentation and defense for the Global Finalist Award. This project constructs a comprehensive mathematical model to design, simulate, and schedule a fair and efficient Global Sports League (GSL).
+The task: design a fair and efficient season for a new international league. We chose basketball, selected 20 teams, compared competition formats, and scheduled the group stage so travel stays short and evenly shared.
 
-## Project Overview
-To establish a sustainable global tournament, we tackled team selection, tournament format design, and logistical travel optimization. 
-* **Sport & Team Selection:** Identified basketball as the optimal sport for global accessibility and selected 20 teams from 16 countries across 6 continents.
-* **Format Simulation:** Designed a novel "Play-in-and-off" format and benchmarked it against World Cup, Double Round Robin (DRR), MLS, and Swiss formats. 
-* **Travel Optimization:** Addressed the massive carbon footprint and fatigue of international travel by minimizing total global flight distances while balancing equitable rest periods.
+## 1. Team selection (AHP)
+* Ranked teams with the Analytic Hierarchy Process on three indicators: team honors, popularity, and market value.
+* Geographic representation was a hard constraint. Result: 20 teams from 16 countries on 6 continents.
 
-## Core Mathematical Modeling & Algorithms
+## 2. Format comparison (Monte Carlo)
+* Compared our "play-in-and-off" format (preseason, double round-robin groups, play-in, knockout) with World Cup, double round-robin, MLS, and Swiss formats.
+* Simulated 10,000 seasons per format in Python, drawing each match result from a Bradley-Terry model on seed ratings.
+* Fairness: the Top-4 difference (gap between seed and simulated finish for the top four seeds) and the Jensen-Shannon divergence between the #1 seed's finish distribution and the double round-robin benchmark.
+* Attractiveness: match quality (sum of the two ratings) times competitiveness (1 minus the normalized rating gap).
+* After normalizing and weighting the three measures, play-in-and-off ranked first. Its JS divergence from double round-robin was 0.42, against 0.53 for Swiss and World Cup.
 
-### 1. Team Selection via AHP
-* Applied the **Analytic Hierarchy Process (AHP)** to objectively rank teams based on three indicators: team honor, popularity, and market value. 
-* Implemented strict geographical constraints to ensure every continent was represented.
+## 3. Group-stage schedule (NSGA-II genetic algorithm)
+* Four groups of five teams play a double round-robin with one bye per round, no back-to-back games between the same two teams, and direct flights between consecutive away games.
+* Two objectives: total travel distance, and the standard deviation of travel distance across teams. Search uses NSGA-II selection, two-point crossover, and swap mutation.
+* From the Pareto front we took the shortest schedule whose standard deviation stays under one day of flying (19,200 km at 800 km/h).
+* Result: 155,405 km of total travel with a 4,034 km standard deviation. In one group, the LA Lakers fly 28,190 km and the Guangdong Southern Tigers 27,868 km.
+* Turned the match order into a nine-month timetable that accounts for jet lag and rest days, and extended the model to 24 teams (total travel rises by 70,039 km).
 
-### 2. Format Evaluation via Monte Carlo Simulation
-* **10,000-Season Simulation:** Used Monte Carlo methods to sample 10,000 seasons to evaluate format fairness and audience attractiveness.
-* **Fairness Metrics:** Calculated Top-4 Difference and utilized **Jensen-Shannon (JS) Divergence** to compare the first seed's rank distribution against a DRR benchmark.
-* **Attractiveness Metrics:** Evaluated game quality and competitiveness dynamically using the **Bradley-Terry model**.
-
-### 3. Schedule Optimization via Genetic Algorithms (GA)
-* Formulated a multi-objective optimization problem to minimize both total travel distance and the standard deviation of travel distances across groups.
-* Implemented a custom **Genetic Algorithm** (utilizing two-point crossover and swap mutation) with constraints to prevent back-to-back matches and manage bye rounds.
-
-## Key Results
-* **Live Defense:** Successfully defended our optimization methodology and algorithmic choices before an international panel of judges in Hong Kong.
-* **Format Validation:** Our proposed "Play-in-and-off" format (preseason, DRR group stage, play-in, knockout) scored the highest overall in balancing fairness and attractiveness.
-* **Travel Reduction:** The Genetic Algorithm optimized the total travel distance to **155,405 km**, representing a **57% optimization** compared to the worst-case routing scenario.
-
-## Repository Contents
-* `IMMC_Paper.pdf`: The complete mathematical modeling paper featuring the AHP matrices, Monte Carlo simulation results, GA pseudocode, and final optimized season schedules.
+## Files
+* `IMMC_Paper.pdf`: the full paper, with AHP matrices, simulation results, GA pseudocode, and the season schedule.
