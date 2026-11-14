@@ -1,6 +1,6 @@
 # Courts Without Borders: Global Sports League Scheduling
 
-**IMMC 2025 Global Finalist.** Team paper for the International Mathematical Modeling Challenge, defended in person at the global finalist presentation in Hong Kong. My role: algorithm lead.
+**IMMC 2025 Greater China Finalist (特等入围奖).** Team paper for the International Mathematical Modeling Challenge (International Contest of Greater China), defended in person at the finals at the Chinese University of Hong Kong. My role: algorithm lead.
 
 The task: design a fair and efficient season for a new international league. We chose basketball, selected 20 teams, compared competition formats, and scheduled the group stage so travel stays short and evenly shared.
 
